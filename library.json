@@ -1,0 +1,20 @@
+{
+  "name": "PKP",
+  "version": "1.0.0",
+  "description": "Packetized Keying Protocol",
+  "keywords": "amateur radio, ham radio",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/schrockwell/pkp_pio.git"
+  },
+  "authors": [
+    {
+      "name": "Rockwell Schrock",
+      "email": "rockwell@schrock.me",
+      "url": "https://rockwellschrock.com/"
+    }
+  ],
+  "license": "MIT",
+  "frameworks": "*",
+  "platforms": "*"
+}

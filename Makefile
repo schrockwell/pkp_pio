@@ -26,7 +26,7 @@ test: $(TARGET)
 
 # Rule to clean up
 clean:
-	rm -f $(BUILD)
+	rm -rf $(BUILD_DIR)
 
 # Phony targets
 .PHONY: all test clean

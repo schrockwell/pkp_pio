@@ -56,23 +56,79 @@ bool test_decode_header()
 
 bool test_encode_key_up()
 {
-  return true; // TODO
+  // GIVEN
+  uint8_t buffer[BUFFER_SIZE];
+  pkp_header header = {
+      .header_size = PKP_HEADER_SIZE,
+      .payload_size = PKP_KEY_UP_PAYLOAD_SIZE,
+      .payload_type = PKP_TYPE_KEY_UP,
+      .sequence_number = 1,
+      .address = 2};
+
+  pkp_key_up_packet packet = {
+      .header = header,
+      .channel = 3,
+      .timestamp = 4};
+
+  // WHEN
+  bool success = pkp_encode(&packet, buffer, BUFFER_SIZE);
+
+  // THEN
+  ASSERT(success, "unsuccessful");
+
+  return true;
 }
 
 bool test_decode_key_up()
 {
-  return true; // TODO
+  pkp_header header = {
+      .header_size = PKP_HEADER_SIZE,
+      .payload_size = PKP_KEY_UP_PAYLOAD_SIZE,
+      .payload_type = PKP_TYPE_KEY_UP,
+      .sequence_number = 4,
+      .address = 5};
+
+  u_int8_t buffer[] = {
+      PKP_HEADER_SIZE,
+      PKP_KEY_UP_PAYLOAD_SIZE,
+      PKP_TYPE_KEY_UP,
+      4,         // sequence number
+      5,         // address
+      6,         // channel
+      0, 0, 0, 7 // timestamp
+  };
+
+  pkp_key_up_packet packet;
+
+  // WHEN
+  bool success = pkp_decode(header, &packet, buffer, sizeof(buffer));
+
+  // THEN
+  ASSERT(success, "unsuccessful");
+  ASSERT(packet.channel == 6, "channel is wrong");
+  ASSERT(packet.timestamp == 7, "timestamp is wrong");
+
+  return true;
 }
 
-bool test_encode_key_down()
-{
-  return true; // TODO
-}
-
-bool test_decode_key_down()
-{
-  return true; // TODO
-}
+// TODO: test_encode_key_down
+// TODO: test_decode_key_down
+// TODO: test_encode_characters
+// TODO: test_decode_characters
+// TODO: test_encode_winkeyer_command
+// TODO: test_decode_winkeyer_command
+// TODO: test_encode_winkeyer_status
+// TODO: test_decode_winkeyer_status
+// TODO: test_encode_ping
+// TODO: test_decode_ping
+// TODO: test_encode_pong
+// TODO: test_decode_pong
+// TODO: test_encode_missing
+// TODO: test_decode_missing
+// TODO: test_encode_late
+// TODO: test_decode_late
+// TODO: test_encode_application
+// TODO: test_decode_application
 
 int main()
 {
@@ -81,9 +137,6 @@ int main()
 
   TEST("encode key up", test_encode_key_up());
   TEST("decode key up", test_decode_key_up());
-
-  TEST("encode key down", test_encode_key_down());
-  TEST("decode key down", test_decode_key_down());
 
   return 0;
 }
